@@ -43,6 +43,7 @@ void function () {
 
     static EVAL(params) {
       return new Promise(res => {
+        console.log(params);
         chrome.tabs.executeScript({
           code: params
         });
@@ -100,7 +101,7 @@ void function () {
         if (append) {
           this.lines[this.lines.length - 1] += '\n' + line.replace(/\\$/, '').trim();
         } else {
-          this.lines.push(line.trim());
+          this.lines.push(line.replace(/\\$/, '').trim());
         }
         append = line.endsWith('\\');
       }
