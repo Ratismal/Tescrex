@@ -1,0 +1,107 @@
+@import 'variables';
+
+* {
+  box-sizing: border-box;
+  font-family: $fontGeneral;
+}
+
+h1, h2, h3, h4, h5, h6, .title {
+  font-family: $fontHeading;
+}
+
+.button {
+  outline: none;
+  background: $colorPrimary;
+  color: white;
+  display: inline-block;
+  padding: 0.5rem;
+  font-size: 0.8rem;
+  font-weight: bold;
+  text-decoration: none;
+  box-shadow: none;
+  border: none;
+  text-align: center;
+
+  font-family: sans-serif;
+  cursor: pointer;
+  user-select: none;
+
+  transition-duration: 0.1s;
+
+  &.danger {
+    background: $colorDanger;
+
+    &:hover {
+      background: lighten($colorDanger, 10);
+    }
+  }
+
+  &:hover {
+    background: lighten($colorPrimary, 10);
+  }
+
+  &.full {
+    display: block;
+    width: 100%;
+  }
+}
+
+#popup {
+  display: grid;
+  grid-template-rows: 50px 3fr 35px;
+  min-height: 400px;
+  min-width: 500px;
+}
+
+#options {
+  display: grid;
+  grid-template-rows: 50px 1fr;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+#script-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  .tsx-script {
+    flex: 0 0 200px;
+    margin: 0.5rem;
+    .label {
+      margin-left: 1rem;
+    }
+  }
+}
+
+.flex {
+  display: flex;
+  flex-wrap: wrap;
+
+  &.row {
+    flex-direction: row;
+  }
+  &.column {
+    flex-direction: column;
+  }
+  &.justify {
+    justify-content: space-between;
+  }
+
+  & > * {
+    flex: 1 1 auto;
+  }
+}
+
+input, textarea {
+  font-family: $fontMono;
+  outline: none;
+  border: none;
+  display: block;
+  width: 100%;
+  padding: 0.5rem;
+
+  background: rgba(0, 0, 0, 0.05);
+}
+
+#script__content {
+  height: 300px;
+}

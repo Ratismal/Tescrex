@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link rel="stylesheet" type="text/css" href="../styles/main.css">
+</head>
+
+<body>
+  <main id="options">
+    <header>
+      <h1>Tescrex</h1>
+    </header>
+    <section>
+      <h2>Existing Scripts</h2>
+      <div class='flex row justify'>
+        <button class='button' id='button__reload'>Reload</button>
+        <button class='button' id='button__save'>Save</button>
+      </div>
+      <div id='script-wrapper'></div>
+      <h2>Modify</h2>
+      <div class='flex row justify'>
+        <button class='button' id='button__create'>Create</button>
+        <button class='button danger' id='button__delete'>Delete</button>
+      </div>
+      <label>Name</label>
+      <input type='text' id='script__name'>
+      <label>Content</label>
+      <textarea id='script__content'></textarea>
+    </section>
+  </main>
+
+  <script type="text/javascript" src="../scripts/utils.js"></script>
+  <script src="../scripts/options.js"></script>
+</body>
+
+</html>
