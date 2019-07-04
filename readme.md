@@ -38,6 +38,10 @@ LOG enjoy your day!
 
 the last two lines are optional, but a bit of politeness never hurts
 
+you can add comments using `//` or `#`, but only at the beginning of a line.
+
+if you have a line but it needs more than one line, plonk a `\` to the end of the line to make the next line part of the line
+
 ## ok but how do i use it?
 
 1. clone this repo
