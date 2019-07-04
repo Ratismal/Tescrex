@@ -8,6 +8,17 @@
     ],
     "persistent": false
   },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "scripts/pageLoadMessenger.js"
+      ],
+      "run_at": "document_end"
+    }
+  ],
   "options_page": "views/options.html",
   "permissions": [
     "activeTab",
