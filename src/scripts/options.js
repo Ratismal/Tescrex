@@ -45,6 +45,9 @@ void function () {
       .then(repopulateScripts)
       .then(res => {
         return updateCurrentScript();
+      })
+      .then(res => {
+        chrome.runtime.sendMessage({ action: 'reload', to: ['background'] });
       });
   }
 

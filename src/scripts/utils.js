@@ -53,7 +53,7 @@ void function () {
 
     static CLICK(script, params) {
       return new Promise(res => {
-        script.evalScript(`const el = document.querySelector(${JSON.stringify(params)});\nel.click()`);
+        script.evalScript(`void function(){const el = document.querySelector(${JSON.stringify(params)});\nel.click()}()`);
         res();
       })
     }
@@ -81,7 +81,7 @@ void function () {
     constructor(obj = {}, client) {
       this.client = client;
 
-      this.id = obj.id || Date.now();
+      this.id = obj.id || Date.now().toString();
       this.name = obj.name || 'New Script';
       this.content = obj.content || '';
       this.lines = [];
@@ -123,6 +123,7 @@ void function () {
       return {
         name: this.name,
         content: this.content,
+        id: this.id
       };
     }
 
