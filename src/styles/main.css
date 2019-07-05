@@ -75,3 +75,13 @@ input, textarea {
 
 #script__content {
   height: 300px; }
+
+#log-wrapper {
+  padding: 0.5rem;
+  background: rgba(0, 0, 0, 0.05); }
+  #log-wrapper .log span {
+    font-size: 14px; }
+  #log-wrapper .log .content {
+    font-family: monospace; }
+  #log-wrapper .log .script {
+    margin-right: 10px; }

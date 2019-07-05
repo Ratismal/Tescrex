@@ -4,6 +4,7 @@
   "description": "Executes a test script on a webpage",
   "background": {
     "scripts": [
+      "scripts/utils.js",
       "scripts/background.js"
     ],
     "persistent": false

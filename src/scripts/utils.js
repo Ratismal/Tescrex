@@ -1,4 +1,8 @@
 void function () {
+
+  function emptyPromise() {
+    return new Promise(res => res());
+  }
   class Storage {
     get(keys) {
       return new Promise(res => {
@@ -32,46 +36,42 @@ void function () {
   }
 
   class ScriptBehaviour {
-    static GOTO(params) {
+    static GOTO(script, params) {
       return new Promise(res => {
-        chrome.tabs.executeScript({
-          code: `window.location.href = ${JSON.stringify(params)}`
-        });
+        chrome.tabs.update(script.tabId, { url: params });
         res()
       });
     }
 
-    static EVAL(params) {
+    static EVAL(script, params) {
       return new Promise(res => {
         console.log(params);
-        chrome.tabs.executeScript({
-          code: params
-        });
+        script.evalScript(params);
         res();
       })
     }
 
-    static CLICK(params) {
+    static CLICK(script, params) {
       return new Promise(res => {
-        chrome.tabs.executeScript({
-          code: `const el = document.querySelector(${JSON.stringify(params)});\nel.click()`
-        });
+        script.evalScript(`const el = document.querySelector(${JSON.stringify(params)});\nel.click()`);
         res();
       })
     }
 
-    static SLEEP(params) {
+    static SLEEP(script, params) {
       return new Promise(res => {
         setTimeout(res, Number(params));
       })
     }
 
-    static LOG(params) {
+    static LOG(script, params) {
       return new Promise(res => {
-        console.log(params);
-        if (Tescrex.onLogsFunc) Tescrex.onLogsFunc({
-          content: params
-        });
+        const log = {
+          message: params,
+          script: script.serialize(),
+          timestamp: Date.now()
+        };
+        Tescrex.log(log);
         res();
       })
     }
@@ -86,7 +86,18 @@ void function () {
       this.content = obj.content || '';
       this.lines = [];
 
+      this.index = 0;
+      this.stopped = true;
+
+      this.tabId;
+
       this.parse();
+    }
+
+    evalScript(code) {
+      chrome.tabs.executeScript(this.tabId, {
+        code
+      });
     }
 
     parse() {
@@ -112,45 +123,51 @@ void function () {
       return {
         name: this.name,
         content: this.content,
-        id: this.id
       };
     }
 
+    stop() {
+      this.stopped = true;
+      return emptyPromise();
+    }
+
     executeStep() {
-      if (this.id !== this.client.current.id) return new Promise(res => res());
-      const line = this.lines[this.client.current.index];
+      if (this.stopped) return emptyPromise();
+      const line = this.lines[this.index];
       // console.log('Executing "%s" - %d | %o', line, this.client.current.index, this.lines);
       if (!line) {
-        this.client.current = null;
-
-        return this.client.saveCurrent();
+        return this.stop();
       }
       const parts = line.split(' ');
       const term = parts[0].toUpperCase();
       const params = parts.slice(1).join(' ').trim();
 
-      this.client.current.index++;
+      this.index++;
 
       if (!ScriptBehaviour[term]) {
-        return this.client.saveCurrent()
+        return emptyPromise()
           .then(res => ScriptBehaviour.LOG(`No matching behaviour found '${term}', skipping`))
           .then(res => this.executeStep());
       }
 
-      return this.client.saveCurrent()
-        .then(res => ScriptBehaviour[term](params))
+      return emptyPromise()
+        .then(res => ScriptBehaviour[term](this, params))
         .then(res => {
           // don't continue if false is explicitly returned
           if (res !== false) return this.executeStep();
+          else return this.stop();
         });
     }
 
-    execute() {
+    execute(id) {
+      this.tabId = id;
       this.parse();
-      if (!this.client.current) {
-        this.client.current = { id: this.id, index: 0 };
+      this.index = 0;
+      this.client.scriptManager.scripts.filter(s => s.id !== this.id).forEach(s => s.stopped = true);
+      if (this.stopped) {
+        this.stopped = false;
+        return this.executeStep();
       }
-      return this.executeStep();
     }
 
     render(label, cb) {
@@ -221,6 +238,8 @@ void function () {
 
       this.current = null;
 
+      this.logs = [];
+
       this.onLogsFunc;
     }
 
@@ -237,6 +256,16 @@ void function () {
             script.execute();
           }
         });
+    }
+
+    log(context) {
+      if (Array.isArray(context.message))
+        console.log(...context.message);
+      else console.log(context.message);
+
+      this.logs.push(context);
+
+      if (this.onLogsFunc) this.onLogsFunc(context);
     }
 
     onLogs(func) {
