@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>title</title>
+</head>
+
+<body>
+  <div id='playground'></div>
+
+  <script>
+  const playground = document.getElementById('playground');
+  
+  function randInt(max) {
+    return Math.floor(Math.random() * max);
+  }
+
+  function generateShape(i) {
+    const el = document.createElement('div');
+    el.className = 'shape';
+    el.id = 'shape-' + i;
+
+    const text = document.createElement('span');
+    text.className = 'shape-title';
+    text.innerText = 'Shape #' + i;
+
+    el.appendChild(text);
+
+    el.addEventListener('click', () => {
+      el.classList.toggle('toggled');
+    });
+
+    el.style.left = randInt(900) + 'px';
+    el.style.top = randInt(520) + 'px';
+
+    playground.appendChild(el);
+  }
+
+  for (let i = 1; i <= 10; i++) {
+    generateShape(i);
+  }
+  
+  </script>
+  <style>
+    #playground {
+      height: 600px;
+      width: 1000px;
+      position: relative;
+      background: rgba(0, 0, 0, 0.05);
+    }
+
+    .shape {
+      height: 80px;
+      width: 100px;
+      position: absolute;
+      color: white;
+      background: rgb(155, 19, 19);
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+
+      user-select: none;
+      cursor: pointer;
+    }
+
+    .shape.toggled {
+      background: rgb(27, 43, 117);
+    }
+  </style>
+</body>
+
+</html>

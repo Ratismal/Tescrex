@@ -245,7 +245,47 @@ void function () {
 
     init() {
       return this.storage.createDefaults({
-        scripts: [{ name: "Go To Google", content: "GOTO https://google.com", id: 1 }],
+        scripts: [
+          { name: "Go To Google", content: "GOTO https://google.com", id: 1 },
+          {
+            name: "Demo",
+            content: `GOTO https://ratismal.github.io/Tescrex/demo
+LOG getting ready to click some squares...
+SLEEP 5000
+CLICK #shape-1
+LOG 1/10
+SLEEP 1000
+CLICK #shape-2
+LOG 2/10
+SLEEP 1000
+CLICK #shape-3
+LOG 3/10
+SLEEP 1000
+CLICK #shape-4
+LOG 4/10
+SLEEP 1000
+CLICK #shape-5
+LOG 5/10
+SLEEP 1000
+CLICK #shape-6
+LOG 6/10
+SLEEP 1000
+CLICK #shape-7
+LOG 7/10
+SLEEP 1000
+CLICK #shape-8
+LOG 8/10
+SLEEP 1000
+CLICK #shape-9
+LOG 9/10
+SLEEP 1000
+CLICK #shape-10
+LOG 10/10
+SLEEP 1000
+LOG we're done!`,
+            id: 2
+          }
+        ],
         current: null
       }).then(res => this.scriptManager.reload())
         .then(res => this.storage.getOne('current'))
