@@ -1,0 +1,14 @@
+{
+  "name": "tescrex",
+  "version": "0.0.1",
+  "main": "index.js",
+  "repository": "https://github.com/Ratismal/Tescrex",
+  "author": "stupid cat <cat@blargbot.xyz>",
+  "license": "MIT",
+  "devDependencies": {
+    "archiver": "^3.0.0"
+  },
+  "scripts": {
+    "package": "node pack.js"
+  }
+}
