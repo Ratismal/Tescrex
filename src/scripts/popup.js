@@ -15,6 +15,7 @@ function addLog(log) {
   const script = document.createElement('span');
   script.className = 'script';
   script.innerText = log.script ? `[${log.script.name}]` : `[INTERNAL]`;
+  script.style.color = log.script ? log.script.color : '#000000';
   const content = document.createElement('span');
   content.className = 'content';
   if (Array.isArray(log.message)) log.message = log.message.join(' ');

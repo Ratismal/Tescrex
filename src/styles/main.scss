@@ -63,6 +63,7 @@ h1, h2, h3, h4, h5, h6, .title {
 #script-wrapper {
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-between;
   .tsx-script {
     flex: 0 0 200px;
     margin: 0.5rem;
@@ -100,6 +101,10 @@ input, textarea {
   padding: 0.5rem;
 
   background: rgba(0, 0, 0, 0.05);
+}
+
+input[type=color] {
+  height: 50px;
 }
 
 #script__content {

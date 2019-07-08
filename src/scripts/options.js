@@ -1,6 +1,7 @@
 void function () {
   const scriptName = document.getElementById('script__name');
   const scriptContent = document.getElementById('script__content');
+  const scriptColor = document.getElementById('script__color');
 
   let script = null;;
 
@@ -8,9 +9,11 @@ void function () {
     if (script) {
       scriptName.value = script.name;
       scriptContent.value = script.content;
+      scriptColor.value = script.color;
     } else {
       scriptName.value = '';
       scriptContent.value = '';
+      scriptColor.value = '#000000';
     }
   }
 
@@ -40,6 +43,7 @@ void function () {
     if (script) {
       script.name = scriptName.value;
       script.content = scriptContent.value;
+      script.color = scriptColor.value;
     }
     return Tescrex.scriptManager.save()
       .then(repopulateScripts)

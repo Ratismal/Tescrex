@@ -84,6 +84,7 @@ void function () {
       this.id = obj.id || Date.now().toString();
       this.name = obj.name || 'New Script';
       this.content = obj.content || '';
+      this.color = obj.color || '#000000';
       this.lines = [];
 
       this.index = 0;
@@ -123,7 +124,8 @@ void function () {
       return {
         name: this.name,
         content: this.content,
-        id: this.id
+        id: this.id,
+        color: this.color
       };
     }
 

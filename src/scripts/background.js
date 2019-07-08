@@ -28,7 +28,8 @@ class Actions {
   static execute(request, sender, sendResponse) {
     const script = Tescrex.scriptManager.getScript(request.id);
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-      script.execute(tabs[0].id);
+      if (tabs[0])
+        script.execute(tabs[0].id);
     });
   }
 
